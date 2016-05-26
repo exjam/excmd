@@ -112,19 +112,7 @@ struct type_value_parser : public value_parser
 };
 
 template<typename ValueType, typename... Types>
-struct get_value_parser_2;
-
-template<typename... Types>
-struct get_value_parser_2<no_value_type, Types...>
-{
-   static value_parser *get(Types... args)
-   {
-      return nullptr;
-   }
-};
-
-template<typename ValueType, typename... Types>
-struct get_value_parser_2<ValueType, Types...>
+struct get_value_parser_2
 {
    static value_parser *get(Types... args)
    {
@@ -136,10 +124,16 @@ struct get_value_parser_2<ValueType, Types...>
 };
 
 template<typename... Types>
-struct get_value_parser;
+struct get_value_parser_2<no_value_type, Types...>
+{
+   static value_parser *get(Types... args)
+   {
+      return nullptr;
+   }
+};
 
 template<typename... Types>
-struct get_value_parser<Types...>
+struct get_value_parser
 {
    using ValueType = typename get_value_type<Types...>::ValueType;
 
