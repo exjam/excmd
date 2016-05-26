@@ -421,6 +421,8 @@ struct parser
          for (auto cmd : commands) {
             os << "  " << name << " " << format_command(cmd) << std::endl;
          }
+
+         os << std::endl;
       }
 
       // Print global options
