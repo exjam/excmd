@@ -22,6 +22,7 @@
     <ClInclude Include="..\src\excmd.h" />
     <ClInclude Include="..\src\excmd_exception.h" />
     <ClInclude Include="..\src\excmd_meta.h" />
+    <ClInclude Include="..\src\excmd_str.h" />
     <ClInclude Include="..\src\excmd_value_parser.h" />
   </ItemGroup>
   <ItemGroup>

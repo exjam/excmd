@@ -27,6 +27,9 @@
     <ClInclude Include="..\src\excmd_value_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\excmd_str.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\example.cpp">
