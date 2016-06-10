@@ -4,6 +4,9 @@
 namespace excmd
 {
 
+namespace internal
+{
+
 struct value_parser
 {
    virtual bool parse(const std::string &value) = 0;
@@ -150,5 +153,7 @@ struct get_value_parser
       return get_value_parser_2<ValueType, Types...>::get(args...);
    }
 };
+
+} // namespace internal
 
 } // namespace excmd

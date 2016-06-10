@@ -37,7 +37,7 @@ struct option
    std::string shortName;
    std::string longName;
    std::string description;
-   std::unique_ptr<value_parser> parser;
+   std::unique_ptr<internal::value_parser> parser;
 };
 
 struct option_group
@@ -59,8 +59,8 @@ struct option_group_adder
    option_group_adder &add_option(const std::string &name, Types... args)
    {
       auto opt = new option {};
-      opt->description = get_description<Types...>::get(args...);
-      opt->parser.reset(get_value_parser<Types...>::get(args...));
+      opt->description = internal::get_description<Types...>::get(args...);
+      opt->parser.reset(internal::get_value_parser<Types...>::get(args...));
 
       auto cpos = name.find_first_of(',');
       if (cpos != std::string::npos) {
@@ -108,9 +108,9 @@ struct command_adder
    {
       auto opt = new option {};
       opt->name = name;
-      opt->description = get_description<Types...>::get(args...);
-      opt->parser.reset(get_value_parser<Types...>::get(args...));
-      opt->optional = get_optional<Types...>::value;
+      opt->description = internal::get_description<Types...>::get(args...);
+      opt->parser.reset(internal::get_value_parser<Types...>::get(args...));
+      opt->optional = internal::get_optional<Types...>::value;
       cmd->arguments.emplace_back(opt);
       return *this;
    }

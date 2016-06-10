@@ -17,6 +17,57 @@ struct allowed
    std::vector<Type> values;
 };
 
+// Sets the default value for an option
+template<typename Type>
+struct default_value
+{
+   default_value(Type value) :
+      value(value)
+   {
+   }
+
+   Type value;
+};
+
+// Sets the description for an option
+struct description
+{
+   description(const std::string &desc) :
+      desc(desc)
+   {
+   }
+
+   std::string desc;
+};
+
+// Defines if a command argument is optional
+struct optional
+{
+};
+
+// Define the type of value for an option
+template<typename Type>
+struct value
+{
+};
+
+namespace internal
+{
+
+// Returns true if Type is a std::vector
+template<typename Type>
+struct is_vector
+{
+   static constexpr bool value = false;
+};
+
+template<typename Type>
+struct is_vector<std::vector<Type>>
+{
+   static constexpr bool value = true;
+};
+
+// allowed
 template<typename ValueType, typename... Types>
 struct get_allowed;
 
@@ -48,18 +99,7 @@ struct get_allowed<ValueType, First, Remaining...>
    };
 };
 
-// Sets the default value for an option
-template<typename Type>
-struct default_value
-{
-   default_value(Type value) :
-      value(value)
-   {
-   }
-
-   Type value;
-};
-
+// default_value
 template<typename ValueType, typename... Types>
 struct get_default_value;
 
@@ -91,17 +131,7 @@ struct get_default_value<ValueType, First, Remaining...>
    };
 };
 
-// Sets the description for an option
-struct description
-{
-   description(const std::string &desc) :
-      desc(desc)
-   {
-   }
-
-   std::string desc;
-};
-
+// description
 template<typename... Types>
 struct get_description;
 
@@ -132,11 +162,7 @@ struct get_description<description, Remaining...>
    }
 };
 
-// Defines if a command argument is optional
-struct optional
-{
-};
-
+// optional
 template<typename... Types>
 struct get_optional;
 
@@ -158,12 +184,7 @@ struct get_optional<First, Remaining...>
    static constexpr bool value = get_optional<Remaining...>::value;
 };
 
-// Define the type of value for an option
-template<typename Type>
-struct value
-{
-};
-
+// value<Type> / default_value<Type>
 struct no_value_type;
 
 template<typename... Types>
@@ -193,17 +214,6 @@ struct get_value_type<default_value<Type>, Remaining...>
    using ValueType = Type;
 };
 
-// Returns true if Type is a std::vector
-template<typename Type>
-struct is_vector
-{
-   static constexpr bool value = false;
-};
-
-template<typename Type>
-struct is_vector<std::vector<Type>>
-{
-   static constexpr bool value = true;
-};
+} // namespace internal
 
 } // namespace excmd
