@@ -6,10 +6,11 @@ namespace excmd
 
 struct value_parser
 {
-   virtual bool has_multiple_values() = 0;
    virtual bool parse(const std::string &value) = 0;
-   virtual bool get_value(void *ptr, std::size_t size) = 0;
-   virtual bool get_default_value(std::string &str) = 0;
+
+   virtual bool has_multiple_values() const = 0;
+   virtual bool get_value(void *ptr, std::size_t size) const = 0;
+   virtual bool get_default_value(std::string &str) const = 0;
 
    template<typename Type>
    static bool parse_value(const std::string &text, Type &value)
@@ -20,6 +21,13 @@ struct value_parser
          return false;
       }
 
+      return true;
+   }
+
+   template<>
+   static bool parse_value(const std::string &text, std::string &value)
+   {
+      value = text;
       return true;
    }
 
@@ -40,7 +48,7 @@ struct value_parser
 template<typename Type>
 struct type_value_parser : public value_parser
 {
-   virtual bool has_multiple_values() override
+   virtual bool has_multiple_values() const override
    {
       return is_vector<Type>::value;
    }
@@ -74,7 +82,7 @@ struct type_value_parser : public value_parser
       return value_set;
    }
 
-   virtual bool get_value(void *ptr, std::size_t size)
+   virtual bool get_value(void *ptr, std::size_t size) const override
    {
       if (size != sizeof(Type)) {
          throw invalid_option_get_type_exception();
@@ -91,7 +99,7 @@ struct type_value_parser : public value_parser
       return true;
    }
 
-   virtual bool get_default_value(std::string &str)
+   virtual bool get_default_value(std::string &str) const override
    {
       if (!default_value_set) {
          return false;

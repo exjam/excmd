@@ -14,7 +14,7 @@ public:
    }
 
    virtual const char*
-      what() const noexcept
+   what() const noexcept
    {
       return message.c_str();
    }
