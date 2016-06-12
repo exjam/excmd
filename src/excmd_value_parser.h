@@ -27,7 +27,6 @@ struct value_parser
       return true;
    }
 
-   template<>
    static bool parse_value(const std::string &text, std::string &value)
    {
       value = text;
