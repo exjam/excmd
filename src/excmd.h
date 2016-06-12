@@ -120,6 +120,11 @@ struct command_adder
 
 struct option_state
 {
+   bool empty()
+   {
+      return !cmd && set_options.empty() && extra_arguments.empty();
+   }
+
    bool has(const std::string &name)
    {
       if (cmd && cmd->name == name) {
