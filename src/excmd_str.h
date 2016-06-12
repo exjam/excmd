@@ -32,6 +32,8 @@ static std::vector<std::string> splitCommandString(IteratorType begin, IteratorT
                continue;
             }
          }
+
+         arg.push_back(cur);
       } else if (cur == '"') {
          inQuotes = !inQuotes;
       } else if (!inQuotes && std::isspace(cur, locale)) {
