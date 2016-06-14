@@ -30,6 +30,10 @@ static std::vector<std::string> splitCommandString(IteratorType begin, IteratorT
                arg.push_back('"');
                itr++;
                continue;
+            } else if (std::isspace(next, locale)) {
+               arg.push_back(next);
+               itr++;
+               continue;
             }
          }
 
