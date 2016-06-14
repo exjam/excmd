@@ -57,7 +57,7 @@ struct type_value_parser : public value_parser
 
    virtual bool parse(const std::string &text) override
    {
-      value_set = value_parser::parse_value<Type>(text, value);
+      value_set = value_parser::parse_value(text, value);
 
       // Check if value is in allowed value list
       if (value_set && allowed_values.size()) {
