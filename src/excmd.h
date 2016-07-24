@@ -175,6 +175,14 @@ public:
       return command_adder { cmd };
    }
 
+   command_adder
+   default_command()
+   {
+      auto cmd = new command {};
+      mDefaultCommand.reset(cmd);
+      return command_adder { cmd };
+   }
+
    option_group_adder
    global_options()
    {
@@ -232,13 +240,27 @@ public:
          if (result.empty()) {
             auto &positional = argv[pos];
 
+            if (!state.cmd && mCommands.size() == 0 && mDefaultCommand) {
+               state.cmd = mDefaultCommand.get();
+            }
+
             if (!state.cmd) {
                state.cmd = find_command(positional);
 
-               if (!state.cmd && mCommands.size()) {
-                  throw option_not_exists_exception(positional);
+               if (!state.cmd) {
+                  if (mCommands.size() == 0 && mDefaultCommand) {
+                     state.cmd = mDefaultCommand.get();
+                  } else {
+                     throw option_not_exists_exception(positional);
+                  }
                }
-            } else if (mCommands.size() == 0 || state.args_set >= state.cmd->arguments.size()) {
+
+               if (state.cmd && state.cmd != mDefaultCommand.get()) {
+                  continue;
+               }
+            }
+
+            if (!state.cmd || state.args_set >= state.cmd->arguments.size()) {
                state.extra_arguments.emplace_back(positional);
             } else {
                auto &arg = state.cmd->arguments[state.args_set++];
@@ -497,6 +519,7 @@ private:
    option_group mGlobal = { "Global Options", {} };
    std::vector<std::unique_ptr<option_group>> mGroups;
    std::vector<std::unique_ptr<command>> mCommands;
+   std::unique_ptr<command> mDefaultCommand;
 };
 
 } // namespace excmd
