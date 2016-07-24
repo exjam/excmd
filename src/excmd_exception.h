@@ -5,7 +5,7 @@
 namespace excmd
 {
 
-class exception : std::exception
+class exception : public std::exception
 {
 public:
    exception(const std::string& message)
@@ -23,7 +23,7 @@ private:
    std::string message;
 };
 
-class spec_exception : exception
+class spec_exception : public exception
 {
 public:
    spec_exception(const std::string& message)
@@ -32,7 +32,7 @@ public:
    }
 };
 
-class parse_exception : exception
+class parse_exception : public exception
 {
 public:
    parse_exception(const std::string& message)
@@ -41,7 +41,7 @@ public:
    }
 };
 
-class invalid_option_name_exception : spec_exception
+class invalid_option_name_exception : public spec_exception
 {
 public:
    invalid_option_name_exception(const std::string &name) :
@@ -50,7 +50,7 @@ public:
    }
 };
 
-class invalid_option_get_type_exception : spec_exception
+class invalid_option_get_type_exception : public spec_exception
 {
 public:
    invalid_option_get_type_exception() :
@@ -59,7 +59,7 @@ public:
    }
 };
 
-class option_not_exists_exception : parse_exception
+class option_not_exists_exception : public parse_exception
 {
 public:
    option_not_exists_exception(const std::string &name) :
@@ -68,7 +68,7 @@ public:
    }
 };
 
-class missing_value_exception : parse_exception
+class missing_value_exception : public parse_exception
 {
 public:
    missing_value_exception(const std::string &name) :
@@ -77,7 +77,7 @@ public:
    }
 };
 
-class not_expecting_value_exception : parse_exception
+class not_expecting_value_exception : public parse_exception
 {
 public:
    not_expecting_value_exception(const std::string &name) :
@@ -86,7 +86,7 @@ public:
    }
 };
 
-class command_missing_argument_exception : parse_exception
+class command_missing_argument_exception : public parse_exception
 {
 public:
    command_missing_argument_exception(const std::string &command, const std::string &argument) :
@@ -95,7 +95,7 @@ public:
    }
 };
 
-class unexpected_option_value : parse_exception
+class unexpected_option_value : public parse_exception
 {
 public:
    unexpected_option_value(const std::string &found, const std::string &allowed) :
