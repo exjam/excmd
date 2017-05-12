@@ -29,6 +29,12 @@ struct default_value
    Type value;
 };
 
+template<typename Type>
+default_value<Type> make_default_value(const Type &value)
+{
+   return default_value<Type>(value);
+}
+
 // Sets the description for an option
 struct description
 {
