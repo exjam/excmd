@@ -9,6 +9,8 @@ namespace internal
 
 struct value_parser
 {
+   virtual ~value_parser() = default;
+
    virtual bool parse(const std::string &value) = 0;
 
    virtual bool has_multiple_values() const = 0;
@@ -50,6 +52,8 @@ struct value_parser
 template<typename Type>
 struct type_value_parser : public value_parser
 {
+   virtual ~type_value_parser() = default;
+
    virtual bool has_multiple_values() const override
    {
       return is_vector<Type>::value;
