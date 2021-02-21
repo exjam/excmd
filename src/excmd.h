@@ -417,17 +417,14 @@ private:
    find_option(const std::string &name,
                const command *activeCommand) const
    {
-      auto option = find_option(name, mGlobal);
-
-      if (option) {
+      if (auto option = find_option(name, mGlobal); option) {
          return option;
       }
 
       if (activeCommand) {
          for (auto group : activeCommand->groups) {
-            auto option = find_option(name, *group);
 
-            if (option) {
+            if (auto option = find_option(name, *group); option) {
                return option;
             }
          }
